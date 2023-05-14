@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
+<th:block th:fragment="ajaxLoadedContent">
+
+	<div class="container" 
+		style="margin-top: 120px;margin-bottom: 100px;font-family: Oswald, sans-serif;color: #12044F;">
+		<div class="jumbotron">
+			<div class="text-center">
+				<h1>
+					Message from <span
+						th:text="${user.firstName} + ' ' + ${user.lastName}"></span>
+				</h1>
+				Text: <span th:text="${message.text}"></span><br> Created: 
+				<span th:text="${createdAtStr}"></span>
+			</div>
+		</div>
+
+		<div class="text-center mt-5">
+			<button class="btn-creator-grey mr-3"
+				th:onclick="redirectAllMessages()"
+				th:text="${'Back'}">
+			</button>
+			
+			<button class="btn-creator-red mr-3"
+				th:onclick="deleteMessage([[${message.adminMessageId}]])"
+				th:text="${'Clear Message'}">
+			</button>
+			<button class="btn-creator-dark-red"
+				th:onclick="suspendUser([[${user.id}]])"
+				th:text="${'Suspend User'}">
+			</button>
+		</div>
+	</div>
+</th:block>

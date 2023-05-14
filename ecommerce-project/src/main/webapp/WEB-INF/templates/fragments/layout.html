@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+<head th:fragment="head">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Ecommerce Thymeleaf Ajax</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	
+<link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+	rel="stylesheet">
+
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Rajdhani">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Oswald">
+<link href='https://fonts.googleapis.com/css?family=Sarpanch'
+	rel='stylesheet'>
+
+
+<style>
+
+ul li {
+  list-style: none;
+}
+.middle {
+
+  width: 526.4px;
+  height: 250px;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  border: 1px solid #000;
+  perspective: 800px;
+  margin: 0 auto;
+  transform: translateY(100%);
+  margin-top: -170px;
+}
+.middle ul {
+  position: relative;
+  height: 250px;
+  width: 2000px;
+}
+.middle ul li {
+  width: 329px;
+  height: 250px;
+  overflow: hidden;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+}
+.middle ul li img {
+  width: 100%;
+  height: 100%;
+}
+.middle ul li:nth-of-type(1) {
+  transform: translateX(230.3px) scale(.8);
+  animation: three-D 12s ease -6s infinite;
+}
+.middle ul li:nth-of-type(2) {
+  transform: translateX(230.3px) scale(.8);
+  animation: three-D 12s ease -3s infinite;
+}
+.middle ul li:nth-of-type(3) {
+  transform: translateX(230.3px) scale(.8);
+  animation: three-D 12s ease 0s infinite;
+}
+.middle ul li:nth-of-type(4) {
+  transform: translateX(230.3px) scale(.8);
+  animation: three-D 12s ease 3s infinite;
+}
+
+@keyframes three-D {
+  5%,
+  25% {
+    opacity: .8;
+    z-index: 1;
+    transform: translateX(230.3px) scale(0.8);
+  }
+  30%,
+  50% {
+    opacity: 1;
+    z-index: 2;
+    transform: translateX(98.7px) scale(1);
+  }
+  55%,
+  75% {
+    opacity: .8;
+    z-index: 1;
+    transform: translateX(-32.9px) scale(0.8);
+  }
+  77%,
+  100% {
+    opacity: 0;
+    transform: translateX(230.3px) scale(0.8);
+  }
+}
+</style>
+
+
+<link rel="stylesheet" th:href="@{/css/bootstrap_v4.5.0.min.css}">
+
+
+
+
+</head>
+
+<body>
+	<div class="header" th:fragment="header">
+
+
+		<nav class="navbar navbar-expand-sm"
+			style="background-color: #4c050e; font-family: Rajdhani, sans-serif; text-transform: uppercase; height: 90px; position: fixed; top: 0; left: 0; right: 0; z-index: 99;">
+			<!-- Brand -->
+			<a class="navbar-brand"><img th:src="@{/images/bazar.png}"
+				style="height: 90px;" /></a>
+
+			<!-- Links -->
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a class="nav-link" 
+						th:style="${'color: #5F7EF4;'}"
+						th:onmouseout="this.style='color: #5F7EF4;'"
+						th:onmouseover="this.style='cursor: pointer;color: #d9d9d9;'"
+						th:onclick="redirectHome()"
+						th:text="${'home'}">
+					</a>
+				</li>
+				<th:block sec:authorize="hasAuthority('ADMIN')">
+					<li class="nav-item">
+						<a class="nav-link"
+							th:style="${'color: #5F7EF4;'}"
+							th:onmouseout="this.style='color: #5F7EF4;'"
+							th:onmouseover="this.style='cursor: pointer;color: #d9d9d9;'"
+							th:onclick="redirectAdmin()"
+							th:text="${'admin'}">
+						</a>
+					</li>
+				</th:block>
+				<th:block sec:authorize="!hasAuthority('ADMIN')">
+					<li class="nav-item">
+						<a class="nav-link"
+							th:style="${'color: #5F7EF4;'}"
+							th:onmouseout="this.style='color: #5F7EF4;'"
+							th:onmouseover="this.style='cursor: pointer;color: #d9d9d9;'"
+							th:onclick="redirectProductList()"
+							th:text="${'products'}">
+						</a>
+					</li>
+				</th:block>
+				<li class="nav-item">
+					<a class="nav-link" 
+						th:style="${'color: #5F7EF4;'}"
+						th:onmouseout="this.style='color: #5F7EF4;'"
+						th:onmouseover="this.style='cursor: pointer;color: #d9d9d9;'"
+						th:onclick="redirectAbout()"
+						th:text="${'about'}">
+					</a>
+				</li>
+				<th:block sec:authorize="hasAuthority('ROLE_USER')">
+					<li class="nav-item">
+						<a class="nav-link"
+							th:style="${'color: #5F7EF4;'}"
+							th:onmouseout="this.style='color: #5F7EF4;'"
+							th:onmouseover="this.style='cursor: pointer;color: #d9d9d9;'"
+							th:onclick="redirectAddMessage()"
+							th:text="${'message'}">
+						</a>
+					</li>
+				</th:block>
+				<th:block sec:authorize="isAnonymous()">
+					<li class="nav-item">
+						<a class="nav-link" 
+							th:style="${'color: #5F7EF4;'}"
+							th:onmouseout="this.style='color: #5F7EF4;'"
+							th:onmouseover="this.style='cursor: pointer;color: #d9d9d9;'"
+							th:onclick="redirectLogin()"
+							th:text="${'login'}">
+						</a>
+					</li>
+				</th:block>
+
+				<th:block sec:authorize="isAuthenticated()">
+					<!-- Dropdown -->
+					<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="navbardrop"
+						data-toggle="dropdown"
+						th:style="${'color: #5F7EF4;'}"
+						th:onmouseout="this.style='color: #5F7EF4;'"
+						th:onmouseover="this.style='cursor: pointer;color: #d9d9d9;'"
+						th:text="${#authentication.getPrincipal().getUsername()}">
+						
+					</a>
+						<div class="dropdown-menu">
+							<th:block sec:authorize="hasAuthority('ROLE_USER')">
+								<a class="dropdown-item"
+									th:onmouseover="this.style='cursor: pointer'"
+									th:onclick="redirectCart()"
+									th:text="${'cart'}">
+								</a>
+							</th:block>
+							<a class="dropdown-item"
+								th:onmouseover="this.style='cursor: pointer'"
+								th:onclick="redirectLogout()"
+								th:text="${'logout'}">
+							</a>
+
+						</div></li>
+				</th:block>
+			</ul>
+		</nav>
+		<br>
+
+	</div>
+
+
+
+	<div id="footer" th:fragment="footer">
+		<div class="footer"
+			th:style="${'height: 50px;  left: 0; right: 0; bottom: 0; z-index: 99; position: fixed;  text-align: center;vertical-align: middle;background-color: #04070C;color: #d9d9d9;font-family: Oswald, sans-serif;'}">
+
+			Â©2023 &nbsp;&nbsp;Created by Milan Radovanovic &nbsp;&nbsp; All
+			Rights Reserved</div>
+	</div>
+</body>
+</html>

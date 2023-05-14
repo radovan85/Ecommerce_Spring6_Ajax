@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
+<th:block th:fragment="ajaxLoadedContent">
+
+	<div class="container" 
+		style="margin-top: 120px;margin-bottom: 100px;font-family: Oswald, sans-serif;color: #12044F;">
+		<div class="row">
+			<form th:object="${order}" class="form-horizontal" method="POST">
+					<div
+						class="well col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3"
+						style="width: 100%; margin-left: 0%">
+						<div style="text-align: center;">
+							<h1>Receipt</h1>
+						</div>
+						<div class="row" style="color: rgb(32,1,47);">
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<address>
+									<strong>Shipping Address</strong><br /> <span
+										th:text="${shippingAddress.address}"></span> <br /> <span
+										th:text="${shippingAddress.city}"></span>, <span
+										th:text="${shippingAddress.state}"></span> <br /> <span
+										th:text="${shippingAddress.country}"></span>, <span
+										th:text="${shippingAddress.postcode}"></span>
+								</address>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6 text-right">
+								<p>
+									Shipping Date:<span
+										th:text="${#calendars.format(#calendars.createNow(), 'dd MMM yyyy HH:mm')}"
+										th:value="${#calendars.format(#calendars.createNow(), 'dd MMM yyyy HH:mm')}" /></span>
+								</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<address>
+									<strong>Billing Address</strong><br /> <span
+										th:text="${billingAddress.address}"></span> <br /> <span
+										th:text="${billingAddress.city}"></span>, <span
+										th:text="${billingAddress.state}"></span> <br /> <span
+										th:text="${billingAddress.country}"></span>, <span
+										th:text="${billingAddress.postcode}"></span>
+								</address>
+							</div>
+						</div>
+						<div class="row">
+							<div class="container">
+								<table class="table table-hover" id="listingTable">
+									<thead>
+										<tr>
+											<th class="text-center">Product</th>
+											<th class="text-center">Quantity</th>
+											<th class="text-center">Price</th>
+											<th class="text-center">Discount</th>
+											<th class="text-center">Total</th>
+										</tr>
+									</thead>
+									<tbody>
+
+										<tr th:each="cartItem : ${allCartItems}">
+										<th:block th:each="tempProduct : ${allProducts}">
+										<th:block th:if="${cartItem.productId == tempProduct.productId}">
+											<td style="text-align: center"><em
+												th:text="${tempProduct.productName}"></em></td>
+											<td style="text-align: center" th:text="${cartItem.quantity}"></td>
+											<td style="text-align: center"
+												th:text="${tempProduct.productPrice}"></td>
+											<td style="text-align: center" th:text="${tempProduct.discount + ' %'}"></td>
+											<td style="text-align: center" th:text="${cartItem.price}"></td>
+										</th:block>
+										</th:block>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			
+			<div class="mt-5">
+				<h3>Grand Total Price:
+					<span>&euro;</span>
+					<span th:text="${cart.cartPrice}"></span>
+				</h3>
+				
+				
+			<div class="text-center mt-5">
+            	<button type="button" class="btn-creator-grey mr-3" 
+            		th:onclick="redirectPhoneConfirmation()"
+            		th:text="${'Back'}" >
+           		</button>
+            
+            	<button type="button" class="btn-creator-red mr-3" 
+            		th:onclick="cancelCheckout()"
+            		th:text="${'Cancel'}">
+            	</button>
+            
+            	<button class="btn-creator-blue" type="button" 
+            		th:onclick="executeOrder()"
+            		th:text="${'Continue'}">
+            	</button>
+            </div>	
+		</div>
+	</div>
+</th:block>

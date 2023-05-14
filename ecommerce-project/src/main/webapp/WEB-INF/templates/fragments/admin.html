@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
+<th:block th:fragment="ajaxLoadedContent">
+
+	<div class="container" 
+		style="margin-top: 120px;margin-bottom: 100px;font-family: Oswald, sans-serif;color: #12044F;">
+		<h1 class="text-center mt-5" >Administrator Panel</h1>
+    	<p class="text-center">This is administrator page</p>
+    
+    	<div class="mt-5 ml-3">
+    		<a class="text-primary bg-light border-warning" data-bs-hover-animate="flash"  
+    			th:onclick="redirectProductList()" th:onmouseover="this.style='cursor: pointer;font-size: 22px;'" 
+    			th:style="${'font-size: 22px;'}" >Product Managment
+    		</a>
+    		<p class="text-left"
+        		>Here you can view, check and modify the product inventory
+        	</p><br><br>
+        </div>
+        
+        <div class="mt-5 ml-3">
+    		<a class="text-primary bg-light border-warning" data-bs-hover-animate="flash"  
+    			th:onclick="redirectAllCustomers()" th:onmouseover="this.style='cursor: pointer;font-size: 22px;'" 
+    			th:style="${'font-size: 22px;'}" >Customer Managment
+    		</a>
+    		<p class="text-left"
+       			 >Here you can view the customer information
+       		</p><br><br>
+        </div>
+        
+     	<div class="mt-5 ml-3">
+    		<a class="text-primary bg-light border-warning" data-bs-hover-animate="flash" 
+    			th:onmouseover="this.style='cursor: pointer;font-size: 22px;'" 
+    			th:style="${'font-size: 22px;'}" th:onclick="redirectAllOrders()">Customer Orders
+    		</a>
+    		<p class="text-left"
+        		>Here you can view the all customer orders
+        </p><br><br>
+        </div>
+        
+     	<div class="mt-5 ml-3">
+    		<a class="text-primary bg-light border-warning" data-bs-hover-animate="flash" 
+    			th:onclick="redirectAllMessages()" th:onmouseover="this.style='cursor: pointer;font-size: 22px;'" 
+    			th:style="${'font-size: 22px;'}" >Customer Messages
+    		</a>
+    		<p class="text-left"
+        		>Here you can view the all customer messages
+        	</p><br><br>
+        </div>
+
+
+		
+
+	</div>
+</th:block>

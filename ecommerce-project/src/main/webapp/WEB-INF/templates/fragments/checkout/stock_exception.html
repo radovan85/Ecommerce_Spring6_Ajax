@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
+<th:block th:fragment="ajaxLoadedContent">
+
+	<div class="container" 
+		style="margin-top: 120px;margin-bottom: 100px;font-family: Oswald, sans-serif;color: #12044F;">
+		<section>
+			<div class="jumbotron">
+				<div class="text-center">
+					<h1 th:text="${'Insufficient product stocks!'}"></h1>
+					<h4 th:text="${'Please Update Your Cart'}"></h4>
+				</div>
+			</div>
+		</section>
+
+		<div class="text-center mt-5">
+			<button class="btn-creator-blue"
+				th:onclick="redirectProductList()"	
+				th:text="${'Browse Products'}">
+			</button>
+		</div>
+			
+	</div>
+</th:block>

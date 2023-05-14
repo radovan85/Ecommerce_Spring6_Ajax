@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
+<th:block th:fragment="ajaxLoadedContent">
+
+<div class="container">
+
+
+		<div class="container" 
+		style="margin-top: 120px;margin-bottom: 100px;font-family: Oswald, sans-serif;color: #12044F;">
+			<h2>Product Details</h2>
+			<p>Details of the Product</p>
+			<table class="table table-bordered table-secondary mt-5" th:style="${'color: #12044F;'}" >
+				<tbody>
+					<tr>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${'Prodcut Image'}">
+						</td>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;">
+							<img 
+								th:onerror="this.src='https://st3.depositphotos.com/1322515/35964/v/600/depositphotos_359648638-stock-illustration-image-available-icon.jpg'"
+								th:src="@{${currentProduct.imageUrl}}"
+								width="30%" height="150px" alt="${currentProduct.productName}" 
+							/>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${'ID'}">
+						</td>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${currentProduct.productId}" >
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${'Name'}">
+						</td>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${currentProduct.productName}">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${'Category'}">
+						</td>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${currentProduct.productCategory}">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${'Description'}">
+						</td>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${currentProduct.productDescription}">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${'Brand'}">
+						</td>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${currentProduct.productBrand}">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${'Model'}">
+						</td>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${currentProduct.productModel}">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${'Price'}">
+						</td>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;">
+							<span>&euro;</span>
+							<span th:text="${currentProduct.productPrice}"></span>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${'Status'}">
+						</td>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${currentProduct.productStatus}">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${'Stock Available'}">
+						</td>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;">
+							<th:block th:if="${currentProduct.unitStock > 0}"> 
+								<span th:text="${currentProduct.unitStock}"></span>
+							</th:block>
+						
+							<th:block th:if="${currentProduct.unitStock == 0}"> 
+								<span class="text-danger" th:text="${'Out of stock!'}"></span>
+							</th:block>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${'Discount'}"></td>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" 
+							th:text="${currentProduct.discount + '%'}">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;" th:text="${'Add to Cart'}">
+						</td>
+						<td class="text-center" 
+							style="text-align:center;vertical-align: middle;">
+							<div>
+							
+								
+								<button  class="btn-creator-blue-light mr-4" 
+									th:onclick="redirectProductList()" 
+									th:style="${'float: right;'}">
+									 <span class="fas fa-long-arrow-alt-left">&nbsp;&nbsp;</span>
+									 All Products
+								</button>
+							
+								<th:block sec:authorize="hasAuthority('ROLE_USER')" th:if="${currentProduct.unitStock > 0}">
+								<button class="btn-creator-blue-light mr-4"
+									th:onclick="addToCart([[${currentProduct.productId}]])"
+									th:style="${'float: right;'}">
+									<span class="fas fa-shopping-cart">&nbsp;&nbsp;</span>Add To Cart
+								</button>
+								</th:block>
+								
+								
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+	</div>
+</th:block>

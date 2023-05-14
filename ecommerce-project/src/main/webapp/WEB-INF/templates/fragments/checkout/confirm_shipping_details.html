@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
+<th:block th:fragment="ajaxLoadedContent">
+
+	<div class="container" 
+		style="margin-top: 120px;margin-bottom: 100px;font-family: Oswald, sans-serif;color: #12044F;">
+        <div class="text-center text-uppercase pt-3"> 
+        	<h3>Shipping Address Confirmation</h3>
+            <hr>
+       	</div>
+            
+        <div class="row mt-2">
+            <div  class="col-md-6 offset-md-3 sigup_form">
+            	<div class="sigup_form">
+					<form class="mt-3" method="POST" th:object="${shippingAddress}" id="shippingAddressForm">
+        	
+        				<input type="hidden" name="shippingAddressId" th:value="${currentShippingAddress.shippingAddressId}">
+        				
+        				<div class="mb-3 col-md-12">
+                        	<label class="form-label" th:text="${'Address'}"></label>
+                          	<input 
+                          		type="text" 
+                          		class="form-control" 
+                          		id="address"
+                          		name="address"  
+                          		th:placeholder="${'Enter Address'}"
+								th:value="${currentShippingAddress.address}"  
+                          	/> 
+                          	<span class="text-danger" id="addressError" 
+            					th:text="${'Please provide Address!'}" 
+            					style="visibility: hidden">
+            				</span>      
+                    	</div>
+                    	
+                    	<div class="mb-3 col-md-12">
+                        	<label class="form-label" th:text="${'City'}"></label>
+                          	<input 
+                          		type="text" 
+                          		class="form-control" 
+                          		id="city"
+                          		name="city"  
+                          		th:placeholder="${'Enter City'}"
+								th:value="${currentShippingAddress.city}"   
+                          	/> 
+                          	<span class="text-danger" id="cityError" 
+            					th:text="${'Please provide City!'}" 
+            					style="visibility: hidden">
+            				</span>      
+                    	</div>
+                    	
+                    	<div class="mb-3 col-md-12">
+                        	<label class="form-label" th:text="${'State'}"></label>
+                          	<input 
+                          		type="text" 
+                          		class="form-control" 
+                          		id="state"
+                          		name="state"  
+                          		th:placeholder="${'Enter City'}"
+								th:value="${currentShippingAddress.state}"  
+                          	/> 
+                          	<span class="text-danger" id="stateError" 
+            					th:text="${'Please provide State!'}" 
+            					style="visibility: hidden">
+            				</span>     
+                    	</div>
+                    	
+                    	<div class="mb-3 col-md-12">
+                        	<label class="form-label" th:text="${'Post Code'}"></label>
+                          	<input 
+                          		type="text" 
+                          		class="form-control" 
+                          		id="postcode"
+                          		name="postcode"  
+                          		th:placeholder="${'Enter Post Code'}"
+								th:value="${currentShippingAddress.postcode}" 
+                          	/> 
+                          	<span class="text-danger" id="postcodeError" 
+            					th:text="${'Please provide Post Code!'}" 
+            					style="visibility: hidden">
+            				</span>   
+                    	</div>
+        
+            			<div class="mb-3 col-md-12">
+                        	<label class="form-label" th:text="${'Country'}"></label>
+                          	<input 
+                          		type="text" 
+                          		class="form-control" 
+                          		id="country"
+                          		name="country"  
+                          		th:placeholder="${'Enter Country'}"
+								th:value="${currentShippingAddress.country}"  
+                          	/> 
+                          	<span class="text-danger" id="countryError" 
+            					th:text="${'Please provide Country!'}" 
+            					style="visibility: hidden">
+            				</span>    
+                    	</div>
+                       
+            			<div class="text-center mt-5">
+            				<button type="button" class="btn-creator-grey mr-3" 
+            					th:onclick="redirectCheckout()"
+            					th:text="${'Back'}" >
+           					</button>
+            
+            				<button type="button" class="btn-creator-red mr-3" 
+            					th:onclick="cancelCheckout()"
+            					th:text="${'Cancel'}">
+            				</button>
+            
+            				<button class="btn-creator-blue" type="submit" 
+            					th:text="${'Continue'}">
+            				</button>
+            			</div>
+       				 </form>
+       			</div>
+       		</div>
+       	</div>
+    </div>
+       				           
+   	<script>
+    	var element = document.getElementById("shippingAddressForm");
+    	element.addEventListener("submit", event => {
+    		event.preventDefault();
+    		var formData = $("#shippingAddressForm");
+    		if (validateShippingAddress()) {
+    			$.ajax({
+    				url : "http://localhost:8080/order/storeShippingAddress",
+    				type : "POST",
+    				data : formData.serialize()
+    			})
+    			.done(function(){
+    				redirectPhoneConfirmation();
+    			})
+    			.fail(function(){
+    				alert("Failed!");
+    			})
+    		}
+    	})
+    </script>
+                                 
+</th:block>
